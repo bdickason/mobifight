@@ -12,14 +12,13 @@ public class Movement : MonoBehaviour {
 		Stand, Jump, Crouch
 	};
 
-	// Who is playing?
+	// Who is playing? (Input)
 	[Header("Player Controls")]
 	public users player = users.Player1;
 	public trainingCommands command = trainingCommands.Stand;
-	
-	// private 
 
-	// Character physics
+
+	// Character movement and physics
 	[Header("Character Physics")]
 	public float moveForce = 365f;
     public float maxSpeed = 5f;
@@ -29,12 +28,32 @@ public class Movement : MonoBehaviour {
 	[HideInInspector] public bool jump = false;
     private bool grounded = false;
 	private bool facingRight = true;
-
+	
 	private Rigidbody2D rb2d;
+
+
+	// Attacking
+	public float startup = 5f;
+	public float active = 20f;
+	public float recovery = 10f;
+
+	private bool isAttacking = false;
+	private float nextAction = 0f;
+
+	private Transform[] bodyParts;
+	private SpriteRenderer rightArmSprite;
 
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
+
+		bodyParts = GetComponentsInChildren<Transform>();
+		foreach(Transform part in bodyParts) {
+			Debug.Log(part.name);
+			if(part.name == "Right arm") {
+				rightArmSprite = part.GetComponent<SpriteRenderer>();
+			}
+		}
 	}
 
 	
@@ -55,13 +74,37 @@ public class Movement : MonoBehaviour {
 			}
 		}
 
+		// Jumping
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
 		if (Input.GetButtonDown(player + "Jump") && grounded)
         {
             jump = true;
-			Debug.Log("Jumping!!");
         }
+
+		// Attacks
+		// Can Player Do Something?
+		if(!isAttacking) {
+			if(Input.GetButtonDown(player + "Punch")) {
+				nextAction += startup;
+			}
+		}
+
+		// Elapse one frame
+		if(nextAction > 0f) {
+			isAttacking = true;
+			nextAction -= Time.deltaTime;
+
+			// Change color to green
+			rightArmSprite.color = Color.green;
+			Debug.Log(nextAction);
+		}
+		else {
+			isAttacking = false;
+			rightArmSprite.color = Color.red;
+			// Change color to red
+		}
+		
 	}
 
 	void FixedUpdate() {
