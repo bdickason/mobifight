@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour {
     public float jumpForce = 1000f;
     public Transform groundCheck;
 
-    private bool grounded = true;
+    private bool grounded = false;
 	private bool facingRight = true;
 
 	private Rigidbody2D rb2d;
@@ -25,6 +25,9 @@ public class Movement : MonoBehaviour {
 	void Update () {
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
+		Debug.DrawLine(transform.position, groundCheck.position, Color.red, Time.deltaTime, false);
+		
+		Debug.Log(grounded);
 		if (Input.GetButtonDown("Jump") && grounded)
         {
             jump = true;
