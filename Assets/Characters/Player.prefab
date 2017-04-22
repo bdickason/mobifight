@@ -52,10 +52,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4401873646055550}
+  - component: {fileID: 114348878648808058}
   - component: {fileID: 114484132304770608}
   - component: {fileID: 50378508614973742}
   - component: {fileID: 61873120565946690}
-  - component: {fileID: 114348878648808058}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -240,7 +240,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1104359869508170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -4.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4401873646055550}
@@ -416,7 +416,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.09048891, y: -2.0963387}
+  m_Offset: {x: 0.035367966, y: -2.0904565}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -427,7 +427,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.3875036, y: 5.1926775}
+  m_Size: {x: 2.4977455, y: 5.180913}
   m_EdgeRadius: 0
 --- !u!61 &61925656829176934
 BoxCollider2D:
@@ -438,10 +438,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.018178463, y: -4.4537168}
+  m_Offset: {x: 0.018178463, y: -0.003452301}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -452,7 +452,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.4179177, y: 0.4546442}
+  m_Size: {x: 2.4179177, y: 0.61400795}
   m_EdgeRadius: 0
 --- !u!61 &61990420639652276
 BoxCollider2D:
@@ -490,11 +490,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ad4be4c7bd7483eb0a85408aefcb88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump: 0
+  player: 0
+  command: 0
   moveForce: 200
   maxSpeed: 5
-  jumpForce: 1000
+  jumpForce: 10000
   groundCheck: {fileID: 4590072842189164}
+  jump: 0
 --- !u!114 &114484132304770608
 MonoBehaviour:
   m_ObjectHideFlags: 1

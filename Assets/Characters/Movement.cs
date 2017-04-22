@@ -4,12 +4,29 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
-	[HideInInspector] public bool jump = false;
+	public enum users {
+		Computer, Player1, Player2
+	};
+
+	public enum trainingCommands {
+		Stand, Jump, Crouch
+	};
+
+	// Who is playing?
+	[Header("Player Controls")]
+	public users player = users.Player1;
+	public trainingCommands command = trainingCommands.Stand;
+	
+	// private 
+
+	// Character physics
+	[Header("Character Physics")]
 	public float moveForce = 365f;
     public float maxSpeed = 5f;
     public float jumpForce = 1000f;
     public Transform groundCheck;
 
+	[HideInInspector] public bool jump = false;
     private bool grounded = false;
 	private bool facingRight = true;
 
@@ -23,12 +40,24 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(player == users.Computer) {
+			// Training Mode: Computer player should perform a set of actions
+			switch(command) {
+				case trainingCommands.Stand:
+				break;
+				case trainingCommands.Crouch:
+				break;
+				case trainingCommands.Jump:
+					if(grounded) {
+						jump = true;
+					}
+				break;
+			}
+		}
+
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-		Debug.DrawLine(transform.position, groundCheck.position, Color.red, Time.deltaTime, false);
-		
-		Debug.Log(grounded);
-		if (Input.GetButtonDown("Jump") && grounded)
+		if (Input.GetButtonDown(player + "Jump") && grounded)
         {
             jump = true;
 			Debug.Log("Jumping!!");
@@ -36,7 +65,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		float h = Input.GetAxis("Horizontal");
+		float h = Input.GetAxis(player + "Horizontal");
 
 		if (h * rb2d.velocity.x < maxSpeed) {
             rb2d.AddForce(Vector2.right * h * moveForce);
