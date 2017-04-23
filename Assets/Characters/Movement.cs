@@ -18,32 +18,12 @@ public class Movement : MonoBehaviour {
 	
 	private Rigidbody2D rb2d;
 
-
-	// Attacking
-	[Header("Combat")]
-	public float startup = 5f;
-	public float active = 20f;
-	public float recovery = 10f;
-
-	private bool isAttacking = false;
-	private float nextAction = 0f;
-
-	private Transform[] bodyParts;
-	private SpriteRenderer rightArmSprite;
-
 	// Get Input from the player/CPU
 	private Controls controls;
 
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
-
-		bodyParts = GetComponentsInChildren<Transform>();
-		foreach(Transform part in bodyParts) {
-			if(part.name == "Right arm") {
-				rightArmSprite = part.GetComponent<SpriteRenderer>();
-			}
-		}
 
 		// Player object gives us player input
 		controls = GetComponent<Controls>();
@@ -59,28 +39,6 @@ public class Movement : MonoBehaviour {
         {
             jump = true;
         }
-
-		// Attacks
-		// Can Player Do Something?
-		if(!isAttacking) {
-			if(controls.Punch()) {
-				nextAction += startup;
-			}
-		}
-
-		// Elapse one frame
-		if(nextAction > 0f) {
-			isAttacking = true;
-			nextAction -= Time.deltaTime;
-
-			rightArmSprite.color = Color.red;
-		}
-		else {
-			// Player can take another action
-			isAttacking = false;
-			rightArmSprite.color = Color.green;
-		}
-		
 	}
 
 	void FixedUpdate() {
