@@ -1,10 +1,10 @@
-﻿/* PlayerControls.cs - Define which players are playing and handle their input */
+﻿/* Controls.cs - Define which players are playing and handle their input */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControls : MonoBehaviour {
+public class Controls : MonoBehaviour {
 
 	public enum users {
 		Computer, Player1, Player2
@@ -22,7 +22,7 @@ public class PlayerControls : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// left = new Button(player + )
+
 	}
 	
 	// Update is called once per frame

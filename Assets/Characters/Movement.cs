@@ -32,7 +32,7 @@ public class Movement : MonoBehaviour {
 	private SpriteRenderer rightArmSprite;
 
 	// Get Input from the player/CPU
-	private PlayerControls player;
+	private Controls controls;
 
 	// Use this for initialization
 	void Start () {
@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 		}
 
 		// Player object gives us player input
-		player = GetComponent<PlayerControls>();
+		controls = GetComponent<Controls>();
 	}
 
 	
@@ -55,7 +55,7 @@ public class Movement : MonoBehaviour {
 		// Jumping
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-		if (player.Vertical() > 0 && grounded)
+		if (controls.Vertical() > 0 && grounded)
         {
             jump = true;
         }
@@ -63,7 +63,7 @@ public class Movement : MonoBehaviour {
 		// Attacks
 		// Can Player Do Something?
 		if(!isAttacking) {
-			if(player.Punch()) {
+			if(controls.Punch()) {
 				nextAction += startup;
 			}
 		}
@@ -84,7 +84,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		float h = player.Horizontal();
+		float h = controls.Horizontal();
 
 		if (h * rb2d.velocity.x < maxSpeed) {
             rb2d.AddForce(Vector2.right * h * moveForce);

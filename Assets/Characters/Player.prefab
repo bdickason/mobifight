@@ -491,8 +491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ad4be4c7bd7483eb0a85408aefcb88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 1
-  command: 0
   moveForce: 200
   maxSpeed: 5
   jumpForce: 10000
@@ -520,9 +518,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1223191452307874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86bf50cef458443aea6f6e93826c0c42, type: 3}
+  m_Script: {fileID: 11500000, guid: cd0d696a279f74f3d91d277c41e57c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: 1
+  command: 0
 --- !u!212 &212078592144359924
 SpriteRenderer:
   m_ObjectHideFlags: 1
