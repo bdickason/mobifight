@@ -52,6 +52,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4401873646055550}
+  - component: {fileID: 114606829508501834}
   - component: {fileID: 114348878648808058}
   - component: {fileID: 114484132304770608}
   - component: {fileID: 50378508614973742}
@@ -278,7 +279,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61110240768054592
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -490,13 +491,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ad4be4c7bd7483eb0a85408aefcb88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: 0
+  player: 1
   command: 0
   moveForce: 200
   maxSpeed: 5
   jumpForce: 10000
   groundCheck: {fileID: 4590072842189164}
   jump: 0
+  startup: 0.1
+  active: 20
+  recovery: 10
 --- !u!114 &114484132304770608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,6 +510,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1327945023, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114606829508501834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223191452307874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bf50cef458443aea6f6e93826c0c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212078592144359924

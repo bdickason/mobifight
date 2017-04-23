@@ -1,23 +1,10 @@
-﻿using System.Collections;
+﻿/* Movement.cs - Moves a player around the scene */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
-
-	public enum users {
-		Computer, Player1, Player2
-	};
-
-	public enum trainingCommands {
-		Stand, Jump, Crouch
-	};
-
-	// Who is playing? (Input)
-	[Header("Player Controls")]
-	public users player = users.Player1;
-	public trainingCommands command = trainingCommands.Stand;
-
-
 	// Character movement and physics
 	[Header("Character Physics")]
 	public float moveForce = 365f;
@@ -33,6 +20,7 @@ public class Movement : MonoBehaviour {
 
 
 	// Attacking
+	[Header("Combat")]
 	public float startup = 5f;
 	public float active = 20f;
 	public float recovery = 10f;
@@ -43,41 +31,31 @@ public class Movement : MonoBehaviour {
 	private Transform[] bodyParts;
 	private SpriteRenderer rightArmSprite;
 
+	// Get Input from the player/CPU
+	private PlayerControls player;
+
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
 
 		bodyParts = GetComponentsInChildren<Transform>();
 		foreach(Transform part in bodyParts) {
-			Debug.Log(part.name);
 			if(part.name == "Right arm") {
 				rightArmSprite = part.GetComponent<SpriteRenderer>();
 			}
 		}
+
+		// Player object gives us player input
+		player = GetComponent<PlayerControls>();
 	}
 
 	
 	// Update is called once per frame
 	void Update () {
-		if(player == users.Computer) {
-			// Training Mode: Computer player should perform a set of actions
-			switch(command) {
-				case trainingCommands.Stand:
-				break;
-				case trainingCommands.Crouch:
-				break;
-				case trainingCommands.Jump:
-					if(grounded) {
-						jump = true;
-					}
-				break;
-			}
-		}
-
 		// Jumping
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-		if (Input.GetButtonDown(player + "Jump") && grounded)
+		if (player.Vertical() > 0 && grounded)
         {
             jump = true;
         }
@@ -85,7 +63,7 @@ public class Movement : MonoBehaviour {
 		// Attacks
 		// Can Player Do Something?
 		if(!isAttacking) {
-			if(Input.GetButtonDown(player + "Punch")) {
+			if(player.Punch()) {
 				nextAction += startup;
 			}
 		}
@@ -95,20 +73,18 @@ public class Movement : MonoBehaviour {
 			isAttacking = true;
 			nextAction -= Time.deltaTime;
 
-			// Change color to green
-			rightArmSprite.color = Color.green;
-			Debug.Log(nextAction);
+			rightArmSprite.color = Color.red;
 		}
 		else {
+			// Player can take another action
 			isAttacking = false;
-			rightArmSprite.color = Color.red;
-			// Change color to red
+			rightArmSprite.color = Color.green;
 		}
 		
 	}
 
 	void FixedUpdate() {
-		float h = Input.GetAxis(player + "Horizontal");
+		float h = player.Horizontal();
 
 		if (h * rb2d.velocity.x < maxSpeed) {
             rb2d.AddForce(Vector2.right * h * moveForce);
