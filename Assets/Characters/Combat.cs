@@ -81,7 +81,8 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Startup;
 		attackStateDuration = startup;
 		rightArmSprite.color = Color.green;
-		animator.SetTrigger("Punch Startup");
+		animator.Play("Punch Startup");
+		// animator.SetTrigger("Punch Startup");
 		
 	}
 
@@ -90,7 +91,8 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Active;
 		attackStateDuration = active;
 		rightArmSprite.color = Color.magenta;
-		animator.SetTrigger("Punch Active");
+		animator.Play("Punch Active");
+		// animator.SetTrigger("Punch Active");
 	}
 
 	// Recovery - Attack cannot hurt other players but player can't attack (hurtbox, no hitbox)
@@ -98,7 +100,8 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Recovery;
 		attackStateDuration = recovery;
 		rightArmSprite.color = Color.grey;
-		animator.SetTrigger("Punch Recovery");
+		animator.Play("Punch Recovery");
+		// animator.SetTrigger("Punch Recovery");
 	}
 
 	// Idle - Ready to attack
@@ -106,6 +109,6 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Idle;
 		attackStateDuration = 0;
 		rightArmSprite.color = Color.white;
-		animator.SetTrigger("Punch Idle");
+		animator.Play("Idle");
 	}
 }
