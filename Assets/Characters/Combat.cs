@@ -5,14 +5,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Combat : MonoBehaviour {
+
+	public enum AttackState {
+		Startup,
+		Active,
+		Recovery,
+		Idle
+	};
+
 	// Attacking
 	[Header("Combat")]
-	public float startup = 0.5f;
-	public float active = 20f;
-	public float recovery = 10f;
+	public float startup = 0.3f;
+	public float active = 0.5f;
+	public float recovery = 0.5f;
 
-	private bool isAttacking = false;
 	private float nextAction = 0f;
+	public AttackState attackState = AttackState.Idle;
+	private float attackStateDuration;
 
 	private Transform[] bodyParts;
 	private SpriteRenderer rightArmSprite;
@@ -26,6 +35,7 @@ public class Combat : MonoBehaviour {
 		foreach(Transform part in bodyParts) {
 			if(part.name == "Right arm") {
 				rightArmSprite = part.GetComponent<SpriteRenderer>();
+				Idle();
 			}
 		}
 
@@ -35,25 +45,64 @@ public class Combat : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// Attacks
 		// Can Player Do Something?
-		if(!isAttacking) {
+		if(nextAction <= 0f) {
 			if(controls.Punch()) {
-				nextAction += startup;
+				nextAction = startup + active + recovery;	// Player can't act until the attack is completed
+				Startup();
+			}
+			else if(attackState != AttackState.Idle) {
+				Idle();
 			}
 		}
-
-		// Elapse one frame
-		if(nextAction > 0f) {
-			isAttacking = true;
-			nextAction -= Time.deltaTime;
-
-			rightArmSprite.color = Color.red;
-		}
 		else {
-			// Player can take another action
-			isAttacking = false;
-			rightArmSprite.color = Color.green;
+			// Player is doing something
+			if(attackStateDuration <= 0) {
+				// Current Attack State is completed, move to the next step
+				switch(attackState) {
+					case AttackState.Startup:
+						Active();
+						break;
+					case AttackState.Active:
+						Recovery();
+						break;
+					case AttackState.Recovery:
+						Idle();
+						break;
+				}
+			}
+			// Elapse one frame
+			var delta = Time.deltaTime;
+			nextAction -= delta;
+			attackStateDuration -= delta;
 		}
+	}
+
+	// Startup - Attack begun but can't hurt other players (hurtbox, no hitbox)
+	void Startup() {
+		attackState = AttackState.Startup;
+		attackStateDuration = startup;
+		rightArmSprite.color = Color.white;
+	}
+
+	// Active - Attack can hurt other players (hurtbox+hitbox)
+	void Active() {
+		attackState = AttackState.Active;
+		attackStateDuration = active;
+		rightArmSprite.color = Color.magenta;
+	}
+
+	// Recovery - Attack cannot hurt other players but player can't attack (hurtbox, no hitbox)
+	void Recovery() {
+		attackState = AttackState.Recovery;
+		attackStateDuration = recovery;
+		rightArmSprite.color = Color.grey;
+	}
+
+	// Idle - Ready to attack
+	void Idle() {
+		attackState = AttackState.Idle;
+		attackStateDuration = 0;
+		rightArmSprite.color = Color.green;
 	}
 }
