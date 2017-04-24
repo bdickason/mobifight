@@ -55,11 +55,12 @@ GameObject:
   - component: {fileID: 114606829508501834}
   - component: {fileID: 114348878648808058}
   - component: {fileID: 114049888654225108}
+  - component: {fileID: 114382006538925120}
   - component: {fileID: 114484132304770608}
   - component: {fileID: 50378508614973742}
   - component: {fileID: 61873120565946690}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Fighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,6 +496,7 @@ MonoBehaviour:
   startup: 5
   active: 20
   recovery: 10
+  attackState: 0
 --- !u!114 &114348878648808058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -511,6 +513,19 @@ MonoBehaviour:
   jumpForce: 10000
   groundCheck: {fileID: 4590072842189164}
   jump: 0
+--- !u!114 &114382006538925120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1223191452307874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d638116b3382b4b588600a3e33916eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextAction: 0
+  busy: 0
 --- !u!114 &114484132304770608
 MonoBehaviour:
   m_ObjectHideFlags: 1

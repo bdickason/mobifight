@@ -19,7 +19,6 @@ public class Combat : MonoBehaviour {
 	public float active = 0.5f;
 	public float recovery = 0.5f;
 
-	private float nextAction = 0f;
 	public AttackState attackState = AttackState.Idle;
 	private float attackStateDuration;
 
@@ -28,6 +27,9 @@ public class Combat : MonoBehaviour {
 
 	// Get Input from the player/CPU
 	private Controls controls;
+
+	// Get overall state for this fighter
+	private Fighter fighter;
 
 	// Use this for initialization
 	void Start () {
@@ -39,16 +41,16 @@ public class Combat : MonoBehaviour {
 			}
 		}
 
-		// Player object gives us player input
 		controls = GetComponent<Controls>();
+		fighter = GetComponent<Fighter>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// Can Player Do Something?
-		if(nextAction <= 0f) {
+		if(!fighter.busy) {
 			if(controls.Punch()) {
-				nextAction = startup + active + recovery;	// Player can't act until the attack is completed
+				fighter.nextAction = startup + active + recovery;	// Player can't act until the attack is completed
 				Startup();
 			}
 			else if(attackState != AttackState.Idle) {
@@ -71,10 +73,8 @@ public class Combat : MonoBehaviour {
 						break;
 				}
 			}
-			// Elapse one frame
-			var delta = Time.deltaTime;
-			nextAction -= delta;
-			attackStateDuration -= delta;
+			// Elapse one frame for the attack
+			attackStateDuration -= Time.deltaTime;
 		}
 	}
 

@@ -21,12 +21,15 @@ public class Movement : MonoBehaviour {
 	// Get Input from the player/CPU
 	private Controls controls;
 
+	// Get overall state for this fighter
+	private Fighter fighter;
+
 	// Use this for initialization
 	void Start () {
 		rb2d = GetComponent<Rigidbody2D>();
 
-		// Player object gives us player input
 		controls = GetComponent<Controls>();
+		fighter = GetComponent<Fighter>();
 	}
 
 	
@@ -35,34 +38,38 @@ public class Movement : MonoBehaviour {
 		// Jumping
 		grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
 
-		if (controls.Vertical() > 0 && grounded)
+		if (!fighter.busy && controls.Vertical() > 0 && grounded)
         {
             jump = true;
         }
 	}
 
 	void FixedUpdate() {
-		float h = controls.Horizontal();
+		if(!fighter.busy) {
+			// Make sure fighter isn't already doing something
 
-		if (h * rb2d.velocity.x < maxSpeed) {
-            rb2d.AddForce(Vector2.right * h * moveForce);
-		}
+			float h = controls.Horizontal();
 
-		if (Mathf.Abs (rb2d.velocity.x) > maxSpeed) {
-            rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
-		}
+			if (h * rb2d.velocity.x < maxSpeed) {
+				rb2d.AddForce(Vector2.right * h * moveForce);
+			}
 
-        if (h > 0 && !facingRight) {
-            Flip ();
-		}
-        else if (h < 0 && facingRight) {
-            Flip ();
-		}
+			if (Mathf.Abs (rb2d.velocity.x) > maxSpeed) {
+				rb2d.velocity = new Vector2(Mathf.Sign (rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
+			}
 
-		if (jump) {
-            rb2d.AddForce(new Vector2(0f, jumpForce));
-            jump = false;
-        }
+			if (h > 0 && !facingRight) {
+				Flip ();
+			}
+			else if (h < 0 && facingRight) {
+				Flip ();
+			}
+
+			if (jump) {
+				rb2d.AddForce(new Vector2(0f, jumpForce));
+				jump = false;
+			}
+		}
 	}
 	
 	void Flip()
