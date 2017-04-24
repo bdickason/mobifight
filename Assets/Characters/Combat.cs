@@ -22,8 +22,9 @@ public class Combat : MonoBehaviour {
 	public AttackState attackState = AttackState.Idle;
 	private float attackStateDuration;
 
-	private Transform[] bodyParts;
+	private Transform rightArm;
 	private SpriteRenderer rightArmSprite;
+	private Animator animator;
 
 	// Get Input from the player/CPU
 	private Controls controls;
@@ -33,13 +34,10 @@ public class Combat : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		bodyParts = GetComponentsInChildren<Transform>();
-		foreach(Transform part in bodyParts) {
-			if(part.name == "Right Arm") {
-				rightArmSprite = part.GetComponent<SpriteRenderer>();
-				Idle();
-			}
-		}
+		rightArm = transform.Find("Body/Right Upper Arm");
+		rightArmSprite = rightArm.GetComponent<SpriteRenderer>();
+		animator = GetComponent<Animator>();
+		Idle();
 
 		controls = GetComponent<Controls>();
 		fighter = GetComponent<Fighter>();
@@ -82,7 +80,9 @@ public class Combat : MonoBehaviour {
 	void Startup() {
 		attackState = AttackState.Startup;
 		attackStateDuration = startup;
-		rightArmSprite.color = Color.white;
+		rightArmSprite.color = Color.green;
+		animator.SetTrigger("Punch Startup");
+		
 	}
 
 	// Active - Attack can hurt other players (hurtbox+hitbox)
@@ -90,6 +90,7 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Active;
 		attackStateDuration = active;
 		rightArmSprite.color = Color.magenta;
+		animator.SetTrigger("Punch Active");
 	}
 
 	// Recovery - Attack cannot hurt other players but player can't attack (hurtbox, no hitbox)
@@ -97,12 +98,14 @@ public class Combat : MonoBehaviour {
 		attackState = AttackState.Recovery;
 		attackStateDuration = recovery;
 		rightArmSprite.color = Color.grey;
+		animator.SetTrigger("Punch Recovery");
 	}
 
 	// Idle - Ready to attack
 	void Idle() {
 		attackState = AttackState.Idle;
 		attackStateDuration = 0;
-		rightArmSprite.color = Color.green;
+		rightArmSprite.color = Color.white;
+		animator.SetTrigger("Punch Idle");
 	}
 }
