@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour {
 	
-	public float nextAction = 0f;
-	public bool busy = false;
+	[HideInInspector] public float nextAction = 0f;
+	[HideInInspector] public bool busy = false;
 
 	// Use this for initialization
 	void Start () {
