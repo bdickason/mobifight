@@ -35,7 +35,7 @@ public class Combat : MonoBehaviour {
 	void Start () {
 		bodyParts = GetComponentsInChildren<Transform>();
 		foreach(Transform part in bodyParts) {
-			if(part.name == "Right arm") {
+			if(part.name == "Right Arm") {
 				rightArmSprite = part.GetComponent<SpriteRenderer>();
 				Idle();
 			}
