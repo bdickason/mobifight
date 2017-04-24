@@ -230,12 +230,12 @@ Prefab:
     - target: {fileID: 114049888654225108, guid: 8113d80284b394fbb8100db8ed2f4c2d,
         type: 2}
       propertyPath: active
-      value: 1.2
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 114049888654225108, guid: 8113d80284b394fbb8100db8ed2f4c2d,
         type: 2}
       propertyPath: recovery
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 114049888654225108, guid: 8113d80284b394fbb8100db8ed2f4c2d,
         type: 2}
